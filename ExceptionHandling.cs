@@ -1,4 +1,5 @@
-﻿//Exercise 1.1: a custom exception.Write class InvalidAgeException : Exception
+﻿//// Exercise 1.1: custom exception InvalidAgeException
+//a custom exception.Write class InvalidAgeException : Exception
 //with a constructor that takes a message.
 //	Write int ParseAge(string text) that throws it 
 //	with “Age must be a number” if the text is not a
