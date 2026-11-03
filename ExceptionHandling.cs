@@ -39,5 +39,3 @@ class InvalidAgeException : Exception
 {
     public InvalidAgeException(String message) : base(message) { }
 }
-
-
