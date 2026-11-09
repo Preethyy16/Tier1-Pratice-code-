@@ -33,7 +33,8 @@ public class BookService : IBookService
             return _books;
         }
 
-        return _books.Where(b => b.Author == author);
+        return _books.Where(b =>
+       string.Equals(b.Author, author, StringComparison.OrdinalIgnoreCase));
     }
     public Books? GetBookById(int id)
     {

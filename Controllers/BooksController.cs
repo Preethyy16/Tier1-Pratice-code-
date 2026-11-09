@@ -18,6 +18,7 @@ public class BooksController : ControllerBase
     public ActionResult<IEnumerable<Books>> FetchBooks([FromQuery] string? author)
     {
         return Ok(_bookService.FetchBooks(author));
+
     }
 
     // GET api/<BooksController>/5
