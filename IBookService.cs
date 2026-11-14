@@ -3,8 +3,8 @@ using System.Collections.Generic;
  
     public interface IBookService
     {
-        IEnumerable<Books> FetchBooks(string? author);
-        Books? GetBookById(int id);
-        Books AddBook(Books book);
-        bool DeleteBookById(int id);
+        IEnumerable<Book> GetAll(string? author);
+        Book? GetById(int id);
+        Book? Insert(Book book);
+        bool Delete(int id);
     }   

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-public class Books
+public class Book
 {
     public int Id { get; set; }                      
 

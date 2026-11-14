@@ -1,32 +1,39 @@
 ﻿using System;
+using System.Xml.Linq;
 
 public class BookService : IBookService
 {
-    private readonly List<Books> _books = new()
+    private readonly List<Book> _books = PopulateBooksList();
+
+    private static List<Book> PopulateBooksList()
     {
-        new Books
+        return new List<Book>
         {
-            Id = 1,
-            Title = "The Last Summer",
-            Author = "Joy",
-            CopiesAvailable = 5
-        },
-        new Books
-        {
-            Id = 2,
-            Title = "Life",
-            Author = "Alex",
-            CopiesAvailable = 5
-        },
-        new Books
-        {
-            Id = 3,
-            Title = "Magic",
-            Author = "John Boss",
-            CopiesAvailable = 2
-        }
-    };
-    public IEnumerable<Books> FetchBooks(string? author)
+            new Book
+            {
+                Id = 1,
+                Title = "The Last Summer",
+                Author = "Joy",
+                CopiesAvailable = 5
+            },
+            new Book
+            {
+                Id = 2,
+                Title = "Life",
+                Author = "Alex",
+                CopiesAvailable = 5
+            },
+            new Book
+            {
+                Id = 3,
+                Title = "Magic",
+                Author = "John Boss",
+                CopiesAvailable = 2
+            }
+        };
+    }
+
+    public IEnumerable<Book> GetAll(string? author)
     {
         if (string.IsNullOrWhiteSpace(author))
         {
@@ -34,20 +41,22 @@ public class BookService : IBookService
         }
 
         return _books.Where(b =>
-       string.Equals(b.Author, author, StringComparison.OrdinalIgnoreCase));
+            string.Equals(b.Author, author, StringComparison.OrdinalIgnoreCase));
     }
-    public Books? GetBookById(int id)
+
+    public Book? GetById(int id)
     {
         foreach (var book in _books)
         {
             if (book.Id == id)
             {
-                return book;   
+                return book;
             }
         }
-        return null;           
+        return null;
     }
- public Books AddBook(Books book)
+
+    public Book? Insert(Book book)
     {
         if (_books.Any(b => b.Id == book.Id))
             return null;
@@ -55,10 +64,12 @@ public class BookService : IBookService
         _books.Add(book);
         return book;
     }
-    public bool DeleteBookById(int id)
+
+    public bool Delete(int id)
     {
-        var book = GetBookById(id);
-        if (book is null) return false;   
+        var book = GetById(id);
+        if (book is null) return false;
+
         _books.Remove(book);
         return true;
     }

@@ -2,58 +2,60 @@
 using BookCatalogAPI;
 namespace BookCatalogAPI.Controllers;
 
-[Route("books")]
+[Route("api/v1/books")]
 [ApiController]
 public class BooksController : ControllerBase
 {
     private readonly IBookService _bookService;
+
     public BooksController(IBookService bookService)
     {
         _bookService = bookService;
     }
 
-    // GET: api/<BooksController>
+    // GET: api/v1/books
     [HttpGet]
-
-    public ActionResult<IEnumerable<Books>> FetchBooks([FromQuery] string? author)
+    public ActionResult<IEnumerable<Book>> GetAll([FromQuery] string? author)
     {
-        return Ok(_bookService.FetchBooks(author));
+        var booksResponse = _bookService.GetAll(author).ToList();
 
+        if (!string.IsNullOrWhiteSpace(author) && booksResponse.Count == 0)
+            return NotFound($"No books by {author} were found.");
+
+        return Ok(booksResponse);
     }
 
-    // GET api/<BooksController>/5
-    [HttpGet("{id}")]
-    public ActionResult<Books> GetBookById(int id)
+    // GET: api/v1/books/5
+    [HttpGet("{id:int}")]
+    public ActionResult<Book> GetById(int id)
     {
-        var book = _bookService.GetBookById(id);
+        var book = _bookService.GetById(id);
 
         if (book is null)
             return NotFound();
 
         return Ok(book);
     }
-    
-    // POST api/<BooksController>
+
+    // POST: api/v1/books
     [HttpPost]
-    public ActionResult<Books> Create(Books book)
-    { 
-        var created = _bookService.AddBook(book);
+    public ActionResult<Book> Create(Book book)
+    {
+        var created = _bookService.Insert(book);
 
         if (created is null)
-            return Conflict($"A book with Id {book.Id} already exists.");   // 409
+            return Conflict($"A book with Id {book.Id} already exists.");
 
-        return CreatedAtAction(nameof(GetBookById), new { id = created.Id }, created);
-    } 
-    
-
-    [HttpDelete("{id:int}")]
-    public IActionResult DeleteBookById(int id)
-    {
-        var deleted = _bookService.DeleteBookById(id);
-        if (!deleted) return NotFound();                   
-        return NoContent();                                
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
-   
-    
+    // DELETE: api/v1/books/5
+    [HttpDelete("{id:int}")]
+    public IActionResult Delete(int id)
+    {
+        if (!_bookService.Delete(id))
+            return NotFound();
+
+        return NoContent();
+    }
 }
