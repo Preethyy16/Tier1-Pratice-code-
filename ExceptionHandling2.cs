@@ -1,4 +1,5 @@
-﻿//Exercise 1.2: find the two problems. A colleague wrote this. Name what is wrong with each method, and rewrite them properly.
+﻿//// Exercise 1.2: exception handling mistakes
+//find the two problems. A colleague wrote this. Name what is wrong with each method, and rewrite them properly.
 //void A() { try { Save(); } catch (Exception) { } }
 //issue is:
 //The catch block is empty, so if Save() fails, the error silently disappears.
