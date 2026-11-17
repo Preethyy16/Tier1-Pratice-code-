@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../CountPower.Tests/CountPower.Tests.csproj" Id="335be316-1ebb-4681-a2a1-f1bb0c0f94ce" />
+  <Project Path="Xunit-testing-pratice.csproj" />
+</Solution>
